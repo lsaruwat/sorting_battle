@@ -1,10 +1,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <time.h>
+#include <algorithm>
 
 using namespace std;
 
-const uint N = 500;
+const uint N = 1000000;
 const uint MaxNum = 1000;
 
 void getRandomVector(vector<int> *vect1){
@@ -62,19 +64,30 @@ int radix(vector<int> *vect1, int maxDigits){
 		place*=10;
 		mod = 10*place;
 		divide = 1*place;
-		printList(buckets);
+		//printList(buckets);
 	}
-
-
 }
 
 int main(int argc, char *argv[]){
 	vector<int> vect1;
-
+	clock_t t;
+	
 	getRandomVector(&vect1);
 	int maxDigits = getMaxDigits(&vect1);
-	cout << maxDigits << endl;
+	
+	//Time the radix sort 
+	t = clock();
 	radix(&vect1, maxDigits);
+	t = clock() - t;
+	cout << t << endl;
+
+	getRandomVector(&vect1);
+
+	//Time the std::sort
+	t = clock();
+	sort(vect1.begin(), vect1.end());
+	t = clock() - t;
+	cout << t << endl;
 
 	return 0;
 }
